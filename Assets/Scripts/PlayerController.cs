@@ -8,8 +8,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float verticalInput;
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
+    [SerializeField] private short jumpsLeft ;
+    [SerializeField] private short maxJumps = 1;
 
-    [SerializeField]private bool isGrounded;
     private Vector3 jump;
     private Rigidbody rb;
 
@@ -17,11 +18,12 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         jump = new Vector3(0.0f, jumpForce, 0.0f);
+        jumpsLeft = maxJumps;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        isGrounded = true;
+        jumpsLeft = maxJumps;
     }
 
     void Update()
@@ -31,7 +33,7 @@ public class PlayerController : MonoBehaviour
         transform.Translate(Vector3.right * horizontalInput * Time.deltaTime * speed);
         transform.Translate(Vector3.forward * verticalInput * Time.deltaTime * speed);
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && jumpsLeft>0)
         {
             Jump();
         }
@@ -40,6 +42,6 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         rb.AddForce(jump * jumpForce, ForceMode.Impulse);
-        isGrounded = false;
+        jumpsLeft--;
     }
 }
