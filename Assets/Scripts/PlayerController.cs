@@ -8,9 +8,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float verticalInput;
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
-    [SerializeField] private short jumpsLeft ;
     [SerializeField] private short maxJumps = 1;
 
+    private short jumpsLeft;
     private Vector3 jump;
     private Rigidbody rb;
 
